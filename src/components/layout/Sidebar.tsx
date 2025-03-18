@@ -1,8 +1,9 @@
 
-import React, { useState } from 'react';
+import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, LayoutDashboard, Package, MapPin, Settings, LogOut } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SidebarProps {
   open: boolean;
@@ -11,6 +12,7 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
   const location = useLocation();
+  const { signOut } = useAuth();
   
   const navItems = [
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
@@ -77,7 +79,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
         
         {/* User section */}
         <div className="p-4 border-t border-sidebar-border">
-          <button className="flex items-center w-full px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md">
+          <button 
+            onClick={signOut}
+            className="flex items-center w-full px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
+          >
             <LogOut size={18} className="mr-2" />
             <span>Log Out</span>
           </button>

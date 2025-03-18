@@ -28,6 +28,17 @@ serve(async (req) => {
   try {
     console.log(`Processing ${req.method} request for path: ${url.pathname}`);
     
+    // Extract the authorization token from the request headers
+    const authHeader = req.headers.get("Authorization");
+    if (authHeader) {
+      // Set the auth token for the Supabase client if available
+      const token = authHeader.replace("Bearer ", "");
+      await supabase.auth.setSession({
+        access_token: token,
+        refresh_token: "",
+      });
+    }
+
     // GET - List all addresses
     if (req.method === "GET" && !path) {
       console.log("Fetching all addresses");
