@@ -26,19 +26,8 @@ serve(async (req) => {
   const path = url.pathname.split("/").pop(); // Get the last part of the path
   
   try {
-    // Extract the authorization token from the request headers
-    const authHeader = req.headers.get("Authorization");
-    if (!authHeader) {
-      throw new Error("No authorization header provided");
-    }
+    console.log(`Processing ${req.method} request for path: ${url.pathname}`);
     
-    // Set the auth token for the Supabase client
-    const token = authHeader.replace("Bearer ", "");
-    supabase.auth.setSession({
-      access_token: token,
-      refresh_token: "",
-    });
-
     // GET - List all addresses
     if (req.method === "GET" && !path) {
       console.log("Fetching all addresses");
@@ -46,7 +35,10 @@ serve(async (req) => {
         .from("addresses")
         .select("*");
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching addresses:", error);
+        throw error;
+      }
 
       // Map the results to the expected format
       const formattedAddresses = data.map(item => ({
@@ -96,7 +88,10 @@ serve(async (req) => {
         .insert(dbAddress)
         .select();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error inserting address:", error);
+        throw error;
+      }
 
       // Map the result back to the frontend format
       const formattedAddress = {
@@ -147,7 +142,10 @@ serve(async (req) => {
         .update(dbAddress)
         .eq("id", id);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error updating address:", error);
+        throw error;
+      }
 
       // Get the updated address
       const { data: updatedData, error: fetchError } = await supabase
@@ -156,7 +154,10 @@ serve(async (req) => {
         .eq("id", id)
         .single();
 
-      if (fetchError) throw fetchError;
+      if (fetchError) {
+        console.error("Error fetching updated address:", fetchError);
+        throw fetchError;
+      }
 
       // Map the result back to the frontend format
       const formattedAddress = {
@@ -187,7 +188,10 @@ serve(async (req) => {
         .delete()
         .eq("id", id);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error deleting address:", error);
+        throw error;
+      }
 
       return new Response(JSON.stringify({ success: true, id }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },

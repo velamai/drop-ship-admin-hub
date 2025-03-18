@@ -2,20 +2,10 @@
 import { supabase } from "@/integrations/supabase/client";
 import { Address } from "@/types";
 
-// Get the session token for authenticated requests
-const getAuthToken = async (): Promise<string> => {
-  const { data } = await supabase.auth.getSession();
-  return data.session?.access_token || '';
-};
-
 // Fetch all addresses from the Edge Function
 export const fetchAddresses = async (): Promise<Address[]> => {
-  const token = await getAuthToken();
-  
   const { data, error } = await supabase.functions.invoke('addresses', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+    method: 'GET',
   });
 
   if (error) {
@@ -23,19 +13,14 @@ export const fetchAddresses = async (): Promise<Address[]> => {
     throw error;
   }
 
-  return data;
+  return data || [];
 };
 
 // Add a new address via the Edge Function
 export const addAddress = async (
   newAddress: Omit<Address, 'id' | 'createdAt' | 'updatedAt'>
 ): Promise<Address> => {
-  const token = await getAuthToken();
-  
   const { data, error } = await supabase.functions.invoke('addresses', {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
     method: 'POST',
     body: newAddress,
   });
@@ -50,12 +35,7 @@ export const addAddress = async (
 
 // Update an existing address via the Edge Function
 export const updateAddress = async (updatedAddress: Address): Promise<Address> => {
-  const token = await getAuthToken();
-  
   const { data, error } = await supabase.functions.invoke(`addresses/${updatedAddress.id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
     method: 'PUT',
     body: updatedAddress,
   });
@@ -70,12 +50,7 @@ export const updateAddress = async (updatedAddress: Address): Promise<Address> =
 
 // Delete an address via the Edge Function
 export const deleteAddress = async (id: string): Promise<{ success: boolean, id: string }> => {
-  const token = await getAuthToken();
-  
   const { data, error } = await supabase.functions.invoke(`addresses/${id}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
     method: 'DELETE',
   });
 
