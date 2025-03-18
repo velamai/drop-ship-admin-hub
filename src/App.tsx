@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import Addresses from "./pages/Addresses";
 import Orders from "./pages/Orders";
 import OrderDetail from "./pages/OrderDetail";
+import Logistics from "./pages/Logistics";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 
@@ -61,6 +62,14 @@ const AppRoutes = () => (
       element={
         <ProtectedRoute>
           <OrderDetail />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics" 
+      element={
+        <ProtectedRoute>
+          <Logistics />
         </ProtectedRoute>
       } 
     />

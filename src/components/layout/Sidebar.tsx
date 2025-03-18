@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronLeft, LayoutDashboard, Package, MapPin, Settings, LogOut } from 'lucide-react';
+import { ChevronLeft, LayoutDashboard, Package, MapPin, Settings, LogOut, Truck } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -18,6 +18,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
     { name: 'Dashboard', path: '/', icon: LayoutDashboard },
     { name: 'Orders', path: '/orders', icon: Package },
     { name: 'Addresses', path: '/addresses', icon: MapPin },
+    { name: 'Logistics', path: '/logistics', icon: Truck },
     { name: 'Settings', path: '/settings', icon: Settings },
   ];
 
