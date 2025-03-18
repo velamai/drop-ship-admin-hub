@@ -14,17 +14,22 @@ export const fetchAddresses = async (): Promise<Address[]> => {
   
   console.log("Auth token available:", !!token);
   
-  const { data, error } = await supabase.functions.invoke('addresses', {
-    method: 'GET',
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-  });
+  try {
+    const { data, error } = await supabase.functions.invoke('addresses', {
+      method: 'GET',
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    });
 
-  if (error) {
+    if (error) {
+      console.error('Error fetching addresses:', error);
+      throw error;
+    }
+
+    return data || [];
+  } catch (error) {
     console.error('Error fetching addresses:', error);
     throw error;
   }
-
-  return data || [];
 };
 
 // Add a new address via the Edge Function
@@ -33,51 +38,66 @@ export const addAddress = async (
 ): Promise<Address> => {
   const token = await getAuthToken();
   
-  const { data, error } = await supabase.functions.invoke('addresses', {
-    method: 'POST',
-    body: newAddress,
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-  });
+  try {
+    const { data, error } = await supabase.functions.invoke('addresses', {
+      method: 'POST',
+      body: newAddress,
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    });
 
-  if (error) {
+    if (error) {
+      console.error('Error adding address:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
     console.error('Error adding address:', error);
     throw error;
   }
-
-  return data;
 };
 
 // Update an existing address via the Edge Function
 export const updateAddress = async (updatedAddress: Address): Promise<Address> => {
   const token = await getAuthToken();
   
-  const { data, error } = await supabase.functions.invoke(`addresses/${updatedAddress.id}`, {
-    method: 'PUT',
-    body: updatedAddress,
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-  });
+  try {
+    const { data, error } = await supabase.functions.invoke(`addresses/${updatedAddress.id}`, {
+      method: 'PUT',
+      body: updatedAddress,
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    });
 
-  if (error) {
+    if (error) {
+      console.error('Error updating address:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
     console.error('Error updating address:', error);
     throw error;
   }
-
-  return data;
 };
 
 // Delete an address via the Edge Function
 export const deleteAddress = async (id: string): Promise<{ success: boolean, id: string }> => {
   const token = await getAuthToken();
   
-  const { data, error } = await supabase.functions.invoke(`addresses/${id}`, {
-    method: 'DELETE',
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-  });
+  try {
+    const { data, error } = await supabase.functions.invoke(`addresses/${id}`, {
+      method: 'DELETE',
+      headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    });
 
-  if (error) {
+    if (error) {
+      console.error('Error deleting address:', error);
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
     console.error('Error deleting address:', error);
     throw error;
   }
-
-  return data;
 };
