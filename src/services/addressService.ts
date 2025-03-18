@@ -62,6 +62,9 @@ export const updateAddress = async (updatedAddress: Address): Promise<Address> =
   const token = await getAuthToken();
   
   try {
+    console.log(`Updating address with ID: ${updatedAddress.id}`);
+    console.log('Address data being sent:', JSON.stringify(updatedAddress));
+    
     const { data, error } = await supabase.functions.invoke(`addresses/${updatedAddress.id}`, {
       method: 'PUT',
       body: updatedAddress,
@@ -73,6 +76,7 @@ export const updateAddress = async (updatedAddress: Address): Promise<Address> =
       throw error;
     }
 
+    console.log('Update successful, received data:', data);
     return data;
   } catch (error) {
     console.error('Error updating address:', error);
