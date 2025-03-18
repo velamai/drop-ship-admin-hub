@@ -53,17 +53,6 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
-				// Adding the new color palette
-				brand: {
-					primary: '#8600D9',
-					secondary: '#230239',
-					dark: '#230239',
-					success: '#0FA958',
-					text: '#252127',
-					'subtle-text': '#AFAD80',
-					accent: '#CFCFEF',
-					light: '#FCFAFE',
-				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
 					foreground: 'hsl(var(--sidebar-foreground))',
