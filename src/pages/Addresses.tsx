@@ -4,8 +4,13 @@ import { Layout } from '@/components/layout/Layout';
 import { PageTitle } from '@/components/ui/PageTitle';
 import { AddressList } from '@/components/addresses/AddressList';
 import { Address } from '@/types';
-import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { 
+  fetchAddresses, 
+  addAddress, 
+  updateAddress, 
+  deleteAddress 
+} from '@/services/addressService';
 
 const Addresses = () => {
   const [addresses, setAddresses] = useState<Address[]>([]);
@@ -13,35 +18,14 @@ const Addresses = () => {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchAddresses();
+    loadAddresses();
   }, []);
 
-  const fetchAddresses = async () => {
+  const loadAddresses = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
-        .from('addresses')
-        .select('*');
-
-      if (error) {
-        throw error;
-      }
-
-      if (data) {
-        // Map the database results to our Address type
-        const formattedAddresses: Address[] = data.map(item => ({
-          id: item.id,
-          addressLine1: item.address_line1,
-          addressLine2: item.address_line2 || undefined,
-          city: item.city,
-          state: item.state || undefined,
-          postalCode: item.postal_code,
-          country: item.country,
-          createdAt: item.created_at,
-          updatedAt: item.updated_at
-        }));
-        setAddresses(formattedAddresses);
-      }
+      const data = await fetchAddresses();
+      setAddresses(data);
     } catch (error) {
       console.error('Error fetching addresses:', error);
       toast({
@@ -57,40 +41,15 @@ const Addresses = () => {
   // Handle create address
   const handleAddAddress = async (newAddress: Omit<Address, 'id' | 'createdAt' | 'updatedAt'>) => {
     try {
-      const { data, error } = await supabase
-        .from('addresses')
-        .insert({
-          address_line1: newAddress.addressLine1,
-          address_line2: newAddress.addressLine2,
-          city: newAddress.city,
-          state: newAddress.state,
-          postal_code: newAddress.postalCode,
-          country: newAddress.country
-        })
-        .select();
-
-      if (error) {
-        throw error;
-      }
-
-      if (data && data[0]) {
-        const formattedAddress: Address = {
-          id: data[0].id,
-          addressLine1: data[0].address_line1,
-          addressLine2: data[0].address_line2 || undefined,
-          city: data[0].city,
-          state: data[0].state || undefined,
-          postalCode: data[0].postal_code,
-          country: data[0].country,
-          createdAt: data[0].created_at,
-          updatedAt: data[0].updated_at
-        };
-        setAddresses([...addresses, formattedAddress]);
-        toast({
-          title: "Address added",
-          description: "The address has been successfully added."
-        });
-      }
+      const createdAddress = await addAddress(newAddress);
+      setAddresses([...addresses, createdAddress]);
+      
+      toast({
+        title: "Address added",
+        description: "The address has been successfully added."
+      });
+      
+      return createdAddress;
     } catch (error) {
       console.error('Error adding address:', error);
       toast({
@@ -98,37 +57,26 @@ const Addresses = () => {
         description: "There was a problem adding the address.",
         variant: "destructive"
       });
+      throw error;
     }
   };
 
   // Handle update address
   const handleUpdateAddress = async (updatedAddress: Address) => {
     try {
-      const { error } = await supabase
-        .from('addresses')
-        .update({
-          address_line1: updatedAddress.addressLine1,
-          address_line2: updatedAddress.addressLine2,
-          city: updatedAddress.city,
-          state: updatedAddress.state,
-          postal_code: updatedAddress.postalCode,
-          country: updatedAddress.country
-        })
-        .eq('id', updatedAddress.id);
-
-      if (error) {
-        throw error;
-      }
-
+      const result = await updateAddress(updatedAddress);
+      
       // Update local state
       setAddresses(addresses.map(addr => 
-        addr.id === updatedAddress.id ? updatedAddress : addr
+        addr.id === updatedAddress.id ? result : addr
       ));
       
       toast({
         title: "Address updated",
         description: "The address has been successfully updated."
       });
+      
+      return result;
     } catch (error) {
       console.error('Error updating address:', error);
       toast({
@@ -136,21 +84,15 @@ const Addresses = () => {
         description: "There was a problem updating the address.",
         variant: "destructive"
       });
+      throw error;
     }
   };
 
   // Handle delete address
   const handleDeleteAddress = async (id: string) => {
     try {
-      const { error } = await supabase
-        .from('addresses')
-        .delete()
-        .eq('id', id);
-
-      if (error) {
-        throw error;
-      }
-
+      await deleteAddress(id);
+      
       // Update local state
       setAddresses(addresses.filter(addr => addr.id !== id));
       
@@ -158,6 +100,8 @@ const Addresses = () => {
         title: "Address deleted",
         description: "The address has been successfully removed."
       });
+      
+      return { success: true };
     } catch (error) {
       console.error('Error deleting address:', error);
       toast({
@@ -165,6 +109,7 @@ const Addresses = () => {
         description: "There was a problem deleting the address.",
         variant: "destructive"
       });
+      throw error;
     }
   };
 

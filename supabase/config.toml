@@ -1,1 +1,5 @@
+
 project_id = "lzoerrcjxcafmbundltd"
+
+[functions.addresses]
+verify_jwt = true
