@@ -65,24 +65,24 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed md:sticky top-0 left-0 z-50 h-full w-64 md:w-64 bg-sidebar transform transition-transform duration-300 ease-in-out",
+          "fixed md:sticky top-0 left-0 z-50 h-full w-64 md:w-64 bg-brand-primary transform transition-transform duration-300 ease-in-out",
           "border-r border-sidebar-border shadow-sm flex flex-col",
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
         {/* Logo & Close button */}
-        <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
+        <div className="flex items-center justify-between p-4 border-b border-brand-primary/80">
           <Link 
             to="/" 
-            className="flex items-center space-x-2 text-sidebar-foreground font-semibold text-lg"
+            className="flex items-center space-x-2 text-white font-semibold text-lg"
             onClick={() => setOpen(false)}
           >
-            <Package className="h-6 w-6 text-primary" />
+            <Package className="h-6 w-6 text-white" />
             <span>Drop & Ship</span>
           </Link>
           <button 
             onClick={() => setOpen(false)}
-            className="p-1 rounded-full hover:bg-sidebar-accent text-sidebar-foreground md:hidden"
+            className="p-1 rounded-full hover:bg-brand-primary/80 text-white md:hidden"
           >
             <ChevronLeft size={18} />
           </button>
@@ -97,8 +97,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
             className={cn(
               "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
               isActive("/") || isActive("/dashboard")
-                ? "bg-purple-100 text-purple-800"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                ? "bg-white text-brand-primary"
+                : "text-white hover:bg-brand-primary/80 hover:text-white"
             )}
           >
             <LayoutDashboard size={18} />
@@ -112,8 +112,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
             className={cn(
               "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
               isActive("/users")
-                ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                ? "bg-white text-brand-primary"
+                : "text-white hover:bg-brand-primary/80 hover:text-white"
             )}
           >
             <Users size={18} />
@@ -127,8 +127,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
               className={cn(
                 "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
                 isActive("/logistics")
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  ? "bg-white text-brand-primary"
+                  : "text-white hover:bg-brand-primary/80 hover:text-white"
               )}
             >
               <div className="flex items-center space-x-2">
@@ -146,7 +146,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
 
             {/* Logistics Submenu */}
             {expandedSections.logistics && (
-              <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
+              <div className="pl-4 ml-2 border-l border-white/30 space-y-1">
                 {/* Office Section */}
                 <div className="space-y-1">
                   <button
@@ -154,8 +154,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                     className={cn(
                       "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
                       isActive("/logistics/office")
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                        ? "bg-white text-brand-primary"
+                        : "text-white hover:bg-brand-primary/80 hover:text-white"
                     )}
                   >
                     <div className="flex items-center space-x-2">
@@ -173,15 +173,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
 
                   {/* Office Submenu */}
                   {expandedSections.office && (
-                    <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
+                    <div className="pl-4 ml-2 border-l border-white/30 space-y-1">
                       <Link
                         to="/logistics/office/orders"
                         onClick={() => setOpen(false)}
                         className={cn(
                           "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                           isActive("/logistics/office/orders")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-white text-brand-primary"
+                            : "text-white hover:bg-brand-primary/80 hover:text-white"
                         )}
                       >
                         <Box size={16} />
@@ -193,8 +193,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                         className={cn(
                           "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                           isActive("/logistics/office/pickup-orders")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-white text-brand-primary"
+                            : "text-white hover:bg-brand-primary/80 hover:text-white"
                         )}
                       >
                         <Truck size={16} />
@@ -206,8 +206,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                         className={cn(
                           "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                           isActive("/logistics/office/walking-orders")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-white text-brand-primary"
+                            : "text-white hover:bg-brand-primary/80 hover:text-white"
                         )}
                       >
                         <Box size={16} />
@@ -224,8 +224,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                     className={cn(
                       "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
                       isActive("/logistics/shipping")
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                        ? "bg-white text-brand-primary"
+                        : "text-white hover:bg-brand-primary/80 hover:text-white"
                     )}
                   >
                     <div className="flex items-center space-x-2">
@@ -243,15 +243,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
 
                   {/* Shipping Submenu */}
                   {expandedSections.shipping && (
-                    <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
+                    <div className="pl-4 ml-2 border-l border-white/30 space-y-1">
                       <Link
                         to="/logistics/shipping/pending"
                         onClick={() => setOpen(false)}
                         className={cn(
                           "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                           isActive("/logistics/shipping/pending")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-white text-brand-primary"
+                            : "text-white hover:bg-brand-primary/80 hover:text-white"
                         )}
                       >
                         <Box size={16} />
@@ -263,8 +263,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                         className={cn(
                           "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                           isActive("/logistics/shipping/ready")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-white text-brand-primary"
+                            : "text-white hover:bg-brand-primary/80 hover:text-white"
                         )}
                       >
                         <Box size={16} />
@@ -276,8 +276,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                         className={cn(
                           "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                           isActive("/logistics/shipping/history")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                            ? "bg-white text-brand-primary"
+                            : "text-white hover:bg-brand-primary/80 hover:text-white"
                         )}
                       >
                         <History size={16} />
@@ -294,8 +294,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                   className={cn(
                     "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                     isActive("/logistics/import-export")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      ? "bg-white text-brand-primary"
+                      : "text-white hover:bg-brand-primary/80 hover:text-white"
                   )}
                 >
                   <Globe size={18} />
@@ -309,8 +309,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                   className={cn(
                     "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                     isActive("/logistics/currency-exchange")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      ? "bg-white text-brand-primary"
+                      : "text-white hover:bg-brand-primary/80 hover:text-white"
                   )}
                 >
                   <DollarSign size={18} />
@@ -327,8 +327,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
               className={cn(
                 "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
                 isActive("/dropship")
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  ? "bg-white text-brand-primary"
+                  : "text-white hover:bg-brand-primary/80 hover:text-white"
               )}
             >
               <div className="flex items-center space-x-2">
@@ -346,15 +346,15 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
 
             {/* Drop & Ship Submenu */}
             {expandedSections.dropship && (
-              <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
+              <div className="pl-4 ml-2 border-l border-white/30 space-y-1">
                 <Link
                   to="/addresses"
                   onClick={() => setOpen(false)}
                   className={cn(
                     "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                     isActive("/addresses")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      ? "bg-white text-brand-primary"
+                      : "text-white hover:bg-brand-primary/80 hover:text-white"
                   )}
                 >
                   <FileBox size={18} />
@@ -366,8 +366,8 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
                   className={cn(
                     "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
                     isActive("/orders")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                      ? "bg-white text-brand-primary"
+                      : "text-white hover:bg-brand-primary/80 hover:text-white"
                   )}
                 >
                   <Box size={18} />
@@ -379,10 +379,10 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
         </nav>
         
         {/* User section */}
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-white/30">
           <button 
             onClick={signOut}
-            className="flex items-center w-full px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
+            className="flex items-center w-full px-3 py-2 text-sm text-white hover:bg-brand-primary/80 rounded-md"
           >
             <LogOut size={18} className="mr-2" />
             <span>Log Out</span>
