@@ -13,6 +13,16 @@ import Logistics from "./pages/Logistics";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
 
+// Logistics pages
+import OfficeOrders from "./pages/logistics/office/OfficeOrders";
+import PickupOrders from "./pages/logistics/office/PickupOrders";
+import WalkingOrders from "./pages/logistics/office/WalkingOrders";
+import PendingShipments from "./pages/logistics/shipping/PendingShipments";
+import ReadyShipments from "./pages/logistics/shipping/ReadyShipments";
+import ShippingHistory from "./pages/logistics/shipping/ShippingHistory";
+import ImportExport from "./pages/logistics/ImportExport";
+import CurrencyExchange from "./pages/logistics/CurrencyExchange";
+
 const queryClient = new QueryClient();
 
 // Protected route component
@@ -33,6 +43,8 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 const AppRoutes = () => (
   <Routes>
     <Route path="/login" element={<Login />} />
+    
+    {/* Main routes */}
     <Route 
       path="/" 
       element={
@@ -41,6 +53,8 @@ const AppRoutes = () => (
         </ProtectedRoute>
       } 
     />
+    
+    {/* Drop & Ship routes */}
     <Route 
       path="/addresses" 
       element={
@@ -65,6 +79,8 @@ const AppRoutes = () => (
         </ProtectedRoute>
       } 
     />
+    
+    {/* Logistics routes */}
     <Route 
       path="/logistics" 
       element={
@@ -73,6 +89,77 @@ const AppRoutes = () => (
         </ProtectedRoute>
       } 
     />
+    
+    {/* Office routes */}
+    <Route 
+      path="/logistics/office/orders" 
+      element={
+        <ProtectedRoute>
+          <OfficeOrders />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics/office/pickup-orders" 
+      element={
+        <ProtectedRoute>
+          <PickupOrders />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics/office/walking-orders" 
+      element={
+        <ProtectedRoute>
+          <WalkingOrders />
+        </ProtectedRoute>
+      } 
+    />
+    
+    {/* Shipping routes */}
+    <Route 
+      path="/logistics/shipping/pending" 
+      element={
+        <ProtectedRoute>
+          <PendingShipments />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics/shipping/ready" 
+      element={
+        <ProtectedRoute>
+          <ReadyShipments />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics/shipping/history" 
+      element={
+        <ProtectedRoute>
+          <ShippingHistory />
+        </ProtectedRoute>
+      } 
+    />
+    
+    {/* Import/Export and Currency Exchange */}
+    <Route 
+      path="/logistics/import-export" 
+      element={
+        <ProtectedRoute>
+          <ImportExport />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics/currency-exchange" 
+      element={
+        <ProtectedRoute>
+          <CurrencyExchange />
+        </ProtectedRoute>
+      } 
+    />
+    
     <Route path="*" element={<NotFound />} />
   </Routes>
 );
