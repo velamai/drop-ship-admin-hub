@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { Link } from 'react-router-dom';
 
 interface Order {
   id: number;
@@ -58,11 +59,6 @@ const OfficeOrders = () => {
   const receiveOrder = (id: number) => {
     console.log(`Receive order ${id}`);
     // In a real app, this would be an API call
-  };
-
-  const viewDetails = (id: number) => {
-    console.log(`View details for order ${id}`);
-    // In a real app, this would navigate to a details page
   };
 
   return (
@@ -164,15 +160,18 @@ const OfficeOrders = () => {
                             <div>
                               <h3 className="text-lg font-medium mb-3">Actions</h3>
                               <div className="flex items-center gap-2">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm"
-                                  onClick={() => viewDetails(order.id)}
-                                  className="flex items-center gap-1"
+                                <Link 
+                                  to={`/logistics/office/orders/${order.id}`}
                                 >
-                                  <Eye size={16} />
-                                  View Details
-                                </Button>
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm"
+                                    className="flex items-center gap-1"
+                                  >
+                                    <Eye size={16} />
+                                    View Details
+                                  </Button>
+                                </Link>
                                 <Button 
                                   variant="default" 
                                   size="sm"

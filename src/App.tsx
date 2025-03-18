@@ -15,6 +15,7 @@ import Login from "./pages/Login";
 
 // Logistics pages
 import OfficeOrders from "./pages/logistics/office/OfficeOrders";
+import OrderView from "./pages/logistics/office/OrderView";
 import PickupOrders from "./pages/logistics/office/PickupOrders";
 import WalkingOrders from "./pages/logistics/office/WalkingOrders";
 import PendingShipments from "./pages/logistics/shipping/PendingShipments";
@@ -96,6 +97,14 @@ const AppRoutes = () => (
       element={
         <ProtectedRoute>
           <OfficeOrders />
+        </ProtectedRoute>
+      } 
+    />
+    <Route 
+      path="/logistics/office/orders/:id" 
+      element={
+        <ProtectedRoute>
+          <OrderView />
         </ProtectedRoute>
       } 
     />
