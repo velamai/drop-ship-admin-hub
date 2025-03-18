@@ -12,6 +12,8 @@ const getAuthToken = async (): Promise<string | null> => {
 export const fetchAddresses = async (): Promise<Address[]> => {
   const token = await getAuthToken();
   
+  console.log("Auth token available:", !!token);
+  
   const { data, error } = await supabase.functions.invoke('addresses', {
     method: 'GET',
     headers: token ? { Authorization: `Bearer ${token}` } : undefined,

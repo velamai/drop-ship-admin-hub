@@ -40,7 +40,7 @@ serve(async (req) => {
     }
 
     // GET - List all addresses
-    if (req.method === "GET" && !path) {
+    if (req.method === "GET") {
       console.log("Fetching all addresses");
       const { data, error } = await supabase
         .from("addresses")
