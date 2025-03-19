@@ -17,11 +17,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const location = useLocation();
   const { signOut } = useAuth();
 
-  // Determine if we're on specific page types
+  // More specific path detection to avoid conflicts
   const isShippingPage = location.pathname.includes('/logistics/shipping');
   const isOfficePage = location.pathname.includes('/logistics/office');
   const isLogisticsPage = location.pathname.startsWith('/logistics');
-  const isDropshipPage = location.pathname.includes('/addresses') || location.pathname.includes('/orders');
+  // Only match /orders and /addresses at the root level, not when they're part of another path
+  const isDropshipPage = 
+    (location.pathname === '/orders' || location.pathname.startsWith('/orders/')) || 
+    (location.pathname === '/addresses' || location.pathname.startsWith('/addresses/'));
 
   // State to track expanded sections - initialize based on current location
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
