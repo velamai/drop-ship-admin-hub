@@ -92,7 +92,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <li>
               <Link to="/" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150", isActive("/") ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")}>
                 <LayoutDashboard size={20} className={cn("", isActive("/") ? "text-purple-600" : "text-gray-600")} />
-                <span>Dashboard</span>
+                <span className="whitespace-nowrap">Dashboard</span>
               </Link>
             </li>
 
@@ -100,7 +100,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <li>
               <Link to="/users" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150", isActive("/users") ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")}>
                 <Users size={20} className={cn("", isActive("/users") ? "text-purple-600" : "text-gray-600")} />
-                <span>Users</span>
+                <span className="whitespace-nowrap">Users</span>
               </Link>
             </li>
 
@@ -109,7 +109,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <button onClick={() => toggleSection('logistics')} className={cn("flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium", isLogisticsPage ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")}>
                 <div className="flex items-center space-x-3">
                   <Truck size={20} className={cn("", isLogisticsPage ? "text-purple-600" : "text-gray-600")} />
-                  <span>Logistics</span>
+                  <span className="whitespace-nowrap">Logistics</span>
                 </div>
                 <ChevronDown size={16} className={cn("transition-transform duration-200", expandedSections.logistics ? "rotate-180" : "", isLogisticsPage ? "text-purple-600" : "text-gray-500")} />
               </button>
@@ -121,7 +121,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className={cn("flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer", isOfficePage ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")} onClick={() => toggleSection('office')}>
                       <div className="flex items-center space-x-3">
                         <Building size={18} className={cn("", isOfficePage ? "text-purple-600" : "text-gray-600")} />
-                        <span>Office</span>
+                        <span className="whitespace-nowrap">Office</span>
                       </div>
                       <ChevronRight size={16} className={cn("transition-transform duration-200", expandedSections.office ? "rotate-90" : "", isOfficePage ? "text-purple-600" : "text-gray-500")} />
                     </div>
@@ -131,19 +131,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         <li>
                           <Link to="/logistics/office/orders" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/logistics/office/orders") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                             <Box size={16} className={cn("", isActive("/logistics/office/orders") ? "text-purple-600" : "text-gray-500")} />
-                            <span>Orders</span>
+                            <span className="whitespace-nowrap">Orders</span>
                           </Link>
                         </li>
                         <li>
                           <Link to="/logistics/office/pickup-orders" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/logistics/office/pickup-orders") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                             <Truck size={16} className={cn("", isActive("/logistics/office/pickup-orders") ? "text-purple-600" : "text-gray-500")} />
-                            <span>Pickup Orders</span>
+                            <span className="whitespace-nowrap">Pickup Orders</span>
                           </Link>
                         </li>
                         <li>
                           <Link to="/logistics/office/walking-orders" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/logistics/office/walking-orders") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                             <Box size={16} className={cn("", isActive("/logistics/office/walking-orders") ? "text-purple-600" : "text-gray-500")} />
-                            <span>Walking Orders</span>
+                            <span className="whitespace-nowrap">Walking Orders</span>
                           </Link>
                         </li>
                       </ul>}
@@ -154,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     <div className={cn("flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer", isShippingPage ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")} onClick={() => toggleSection('shipping')}>
                       <div className="flex items-center space-x-3">
                         <Truck size={18} className={cn("", isShippingPage ? "text-purple-600" : "text-gray-600")} />
-                        <span>Shipping</span>
+                        <span className="whitespace-nowrap">Shipping</span>
                       </div>
                       <ChevronDown size={16} className={cn("transition-transform duration-200", expandedSections.shipping ? "rotate-180" : "", isShippingPage ? "text-purple-600" : "text-gray-500")} />
                     </div>
@@ -164,19 +164,19 @@ export const Sidebar: React.FC<SidebarProps> = ({
                         <li>
                           <Link to="/logistics/shipping/pending" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/logistics/shipping/pending") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                             <Box size={16} className={cn("", isActive("/logistics/shipping/pending") ? "text-purple-600" : "text-gray-500")} />
-                            <span>Pending</span>
+                            <span className="whitespace-nowrap">Pending</span>
                           </Link>
                         </li>
                         <li>
                           <Link to="/logistics/shipping/ready" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/logistics/shipping/ready") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                             <Box size={16} className={cn("", isActive("/logistics/shipping/ready") ? "text-purple-600" : "text-gray-500")} />
-                            <span>Ready</span>
+                            <span className="whitespace-nowrap">Ready</span>
                           </Link>
                         </li>
                         <li>
                           <Link to="/logistics/shipping/history" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/logistics/shipping/history") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                             <Clock size={16} className={cn("", isActive("/logistics/shipping/history") ? "text-purple-600" : "text-gray-500")} />
-                            <span>History</span>
+                            <span className="whitespace-nowrap">History</span>
                           </Link>
                         </li>
                       </ul>}
@@ -186,7 +186,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <li>
                     <Link to="/logistics/import-export" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150", isActive("/logistics/import-export") ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")}>
                       <Globe size={18} className={cn("", isActive("/logistics/import-export") ? "text-purple-600" : "text-gray-600")} />
-                      <span>Import & Export</span>
+                      <span className="whitespace-nowrap">Import & Export</span>
                     </Link>
                   </li>
 
@@ -194,7 +194,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <li>
                     <Link to="/logistics/currency-exchange" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150", isActive("/logistics/currency-exchange") ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")}>
                       <DollarSign size={18} className={cn("", isActive("/logistics/currency-exchange") ? "text-purple-600" : "text-gray-600")} />
-                      <span>Currency Exchange</span>
+                      <span className="whitespace-nowrap">Currency Exchange</span>
                     </Link>
                   </li>
                 </ul>}
@@ -205,7 +205,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className={cn("flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer", isDropshipPage ? "bg-purple-50 text-purple-700" : "text-gray-700 hover:bg-gray-100")} onClick={() => toggleSection('dropship')}>
                 <div className="flex items-center space-x-3">
                   <Warehouse size={20} className={cn("", isDropshipPage ? "text-purple-600" : "text-gray-600")} />
-                  <span>Drop & Ship</span>
+                  <span className="whitespace-nowrap">Drop & Ship</span>
                 </div>
                 <ChevronRight size={16} className={cn("transition-transform duration-200", expandedSections.dropship ? "rotate-90" : "", isDropshipPage ? "text-purple-600" : "text-gray-500")} />
               </div>
@@ -215,13 +215,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <li>
                     <Link to="/addresses" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/addresses") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                       <FileBox size={18} className={cn("", isActive("/addresses") ? "text-purple-600" : "text-gray-500")} />
-                      <span>Addresses</span>
+                      <span className="whitespace-nowrap">Addresses</span>
                     </Link>
                   </li>
                   <li>
                     <Link to="/orders" onClick={() => setOpen(false)} className={cn("flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150", isActive("/orders") ? "bg-purple-50 text-purple-700 font-medium" : "text-gray-600 hover:bg-gray-100")}>
                       <Box size={18} className={cn("", isActive("/orders") ? "text-purple-600" : "text-gray-500")} />
-                      <span>Orders</span>
+                      <span className="whitespace-nowrap">Orders</span>
                     </Link>
                   </li>
                 </ul>}
@@ -232,7 +232,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
               <div className={cn("flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer", "text-gray-700 hover:bg-gray-100")}>
                 <div className="flex items-center space-x-3">
                   <ShoppingBag size={20} className="text-gray-600" />
-                  <span>E-commerce</span>
+                  <span className="whitespace-nowrap">E-commerce</span>
                 </div>
                 <ChevronRight size={16} className="text-gray-500" />
               </div>
@@ -244,9 +244,10 @@ export const Sidebar: React.FC<SidebarProps> = ({
         <div className="p-4 border-t border-gray-200 mt-auto">
           <button onClick={signOut} className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
             <LogOut size={18} className="mr-2" />
-            <span>Log Out</span>
+            <span className="whitespace-nowrap">Log Out</span>
           </button>
         </div>
       </aside>
     </>;
 };
+
