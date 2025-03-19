@@ -17,14 +17,14 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
   };
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-screen w-full bg-background overflow-hidden">
       <div className="h-screen flex-shrink-0">
         <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
       </div>
       
-      <div className="flex flex-col flex-1 w-full">
+      <div className="flex flex-col flex-1 w-full h-screen overflow-hidden">
         <Header toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />
-        <main className={`flex-1 p-4 md:p-6 transition-all duration-300 ${isMobile && sidebarOpen ? 'opacity-50' : ''}`}>
+        <main className={`flex-1 p-4 md:p-6 transition-all duration-300 overflow-y-auto ${isMobile && sidebarOpen ? 'opacity-50' : ''}`}>
           <div className="animate-fade-in">
             {children}
           </div>

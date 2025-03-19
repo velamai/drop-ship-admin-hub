@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronDown, ChevronRight, LayoutDashboard, Users, Truck, Package, FileBox, Clock, Globe, DollarSign, LogOut, Warehouse, Box, Building, ShoppingBag } from 'lucide-react';
@@ -228,7 +229,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </nav>
         
         {/* User section */}
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-4 border-t border-gray-200 mt-auto">
           <button onClick={signOut} className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md">
             <LogOut size={18} className="mr-2" />
             <span>Log Out</span>
