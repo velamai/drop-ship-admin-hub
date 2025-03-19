@@ -50,7 +50,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           <Link to="/" className="flex items-center space-x-2 font-semibold" onClick={() => setOpen(false)}>
             <div className="w-7 h-7 bg-red-500 rotate-45"></div>
             <div>
-              <div className="text-gray-800 text-lg">COLOMBO</div>
+              <div className="text-gray-800 text-lg font-bold">COLOMBO</div>
               <div className="text-red-500 text-xs -mt-1">MAIL ADMIN</div>
             </div>
           </Link>
