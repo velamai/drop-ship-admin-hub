@@ -18,7 +18,9 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <div className="flex min-h-screen w-full bg-background">
-      <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      <div className="h-screen flex-shrink-0">
+        <Sidebar open={sidebarOpen} setOpen={setSidebarOpen} />
+      </div>
       
       <div className="flex flex-col flex-1 w-full">
         <Header toggleSidebar={toggleSidebar} sidebarOpen={sidebarOpen} />

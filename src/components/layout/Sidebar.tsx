@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronDown, ChevronRight, LayoutDashboard, Users, Truck, Package, FileBox, Clock, Globe, DollarSign, LogOut, Warehouse, Box, Building, ShoppingBag } from 'lucide-react';
@@ -54,7 +53,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
       {open && <div className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden" onClick={() => setOpen(false)} />}
       
       {/* Sidebar */}
-      <aside className={cn("fixed md:sticky top-0 left-0 z-50 h-full bg-white transform transition-transform duration-300 ease-in-out", "border-r border-gray-200 shadow-sm flex flex-col w-64", open ? "translate-x-0" : "-translate-x-full md:translate-x-0")}>
+      <aside className={cn(
+        "fixed md:sticky top-0 left-0 z-50 h-screen bg-white transform transition-transform duration-300 ease-in-out",
+        "border-r border-gray-200 shadow-sm flex flex-col w-64", 
+        open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
+      )}>
         {/* Logo & Close button */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <Link to="/" className="flex items-center space-x-2 font-semibold" onClick={() => setOpen(false)}>
@@ -70,7 +73,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
         
         {/* Navigation */}
-        <nav className="flex-1 pt-4 overflow-y-auto">
+        <nav className="flex-1 overflow-y-auto pt-4">
           <ul className="space-y-1 px-3">
             {/* Dashboard */}
             <li>
