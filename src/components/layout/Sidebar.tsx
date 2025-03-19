@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ChevronLeft, ChevronDown, ChevronRight, LayoutDashboard, Users, Truck, Package, FileBox, Clock, Globe, DollarSign, LogOut, Warehouse, Box, Building, ShoppingBag } from 'lucide-react';
 import { cn } from '@/lib/utils';
@@ -15,17 +15,32 @@ export const Sidebar: React.FC<SidebarProps> = ({
   setOpen
 }) => {
   const location = useLocation();
-  const {
-    signOut
-  } = useAuth();
+  const { signOut } = useAuth();
 
-  // State to track expanded sections
+  // Determine if we're on specific page types
+  const isShippingPage = location.pathname.includes('/logistics/shipping');
+  const isOfficePage = location.pathname.includes('/logistics/office');
+  const isLogisticsPage = location.pathname.startsWith('/logistics');
+  const isDropshipPage = location.pathname.includes('/addresses') || location.pathname.includes('/orders');
+
+  // State to track expanded sections - initialize based on current location
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    logistics: true,
-    office: false,
-    shipping: true,
-    dropship: false
+    logistics: isLogisticsPage,
+    office: isOfficePage,
+    shipping: isShippingPage,
+    dropship: isDropshipPage
   });
+
+  // Update expanded sections when location changes
+  useEffect(() => {
+    setExpandedSections(prev => ({
+      ...prev,
+      logistics: isLogisticsPage,
+      office: isOfficePage,
+      shipping: isShippingPage,
+      dropship: isDropshipPage
+    }));
+  }, [location.pathname, isLogisticsPage, isOfficePage, isShippingPage, isDropshipPage]);
 
   // Toggle section expansion
   const toggleSection = (section: string) => {
@@ -42,12 +57,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
     }
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
-
-  // Determine if we're on specific page types
-  const isShippingPage = location.pathname.includes('/logistics/shipping');
-  const isOfficePage = location.pathname.includes('/logistics/office');
-  const isLogisticsPage = location.pathname.startsWith('/logistics');
-  const isDropshipPage = location.pathname.includes('/addresses') || location.pathname.includes('/orders');
 
   return <>
       {/* Mobile overlay */}
