@@ -4,20 +4,20 @@ import { Link, useLocation } from 'react-router-dom';
 import { 
   ChevronLeft, 
   ChevronDown, 
+  ChevronRight,
   LayoutDashboard, 
   Users, 
   Truck, 
   Package, 
   FileBox, 
   Clock, 
-  CheckCircle, 
-  History, 
   Globe, 
   DollarSign, 
   LogOut,
   Warehouse,
   Box,
-  Building
+  Building,
+  ShoppingBag
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useAuth } from '@/contexts/AuthContext';
@@ -34,9 +34,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
   // State to track expanded sections
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
     logistics: true,
-    office: true,
+    office: false,
     shipping: true,
-    dropship: true
+    dropship: false
   });
 
   // Toggle section expansion
@@ -52,6 +52,9 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
     return location.pathname === path || location.pathname.startsWith(`${path}/`);
   };
 
+  // Determine if we're on a shipping page to highlight the parent
+  const isShippingPage = location.pathname.includes('/logistics/shipping');
+
   return (
     <>
       {/* Mobile overlay */}
@@ -65,324 +68,364 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
       {/* Sidebar */}
       <aside 
         className={cn(
-          "fixed md:sticky top-0 left-0 z-50 h-full w-64 md:w-64 bg-sidebar transform transition-transform duration-300 ease-in-out",
-          "border-r border-sidebar-border shadow-sm flex flex-col",
+          "fixed md:sticky top-0 left-0 z-50 h-full bg-white transform transition-transform duration-300 ease-in-out",
+          "border-r border-gray-200 shadow-sm flex flex-col w-64",
           open ? "translate-x-0" : "-translate-x-full md:translate-x-0"
         )}
       >
         {/* Logo & Close button */}
-        <div className="flex items-center justify-between p-4 border-b border-sidebar-border">
+        <div className="flex items-center justify-between p-4 border-b border-gray-200">
           <Link 
             to="/" 
-            className="flex items-center space-x-2 text-sidebar-foreground font-semibold text-lg"
+            className="flex items-center space-x-2 font-semibold"
             onClick={() => setOpen(false)}
           >
-            <Package className="h-6 w-6 text-primary" />
-            <span>Drop & Ship</span>
+            <div className="w-7 h-7 bg-red-500 rotate-45"></div>
+            <div>
+              <div className="text-gray-800 text-lg">DROP & SHIP</div>
+              <div className="text-red-500 text-xs -mt-1">MAIL ADMIN</div>
+            </div>
           </Link>
           <button 
             onClick={() => setOpen(false)}
-            className="p-1 rounded-full hover:bg-sidebar-accent text-sidebar-foreground md:hidden"
+            className="p-1 rounded-full hover:bg-gray-100 text-gray-500 md:hidden"
           >
             <ChevronLeft size={18} />
           </button>
         </div>
         
         {/* Navigation */}
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-          {/* Dashboard */}
-          <Link
-            to="/"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-              isActive("/") || isActive("/dashboard")
-                ? "bg-purple-100 text-purple-800"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            )}
-          >
-            <LayoutDashboard size={18} />
-            <span>Dashboard</span>
-          </Link>
-
-          {/* Users */}
-          <Link
-            to="/users"
-            onClick={() => setOpen(false)}
-            className={cn(
-              "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-              isActive("/users")
-                ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-            )}
-          >
-            <Users size={18} />
-            <span>Users</span>
-          </Link>
-
-          {/* Logistics Section */}
-          <div className="space-y-1">
-            <button
-              onClick={() => toggleSection('logistics')}
-              className={cn(
-                "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
-                isActive("/logistics")
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              )}
-            >
-              <div className="flex items-center space-x-2">
-                <Truck size={18} />
-                <span>Logistics</span>
-              </div>
-              <ChevronDown 
-                size={16} 
+        <nav className="flex-1 pt-4 overflow-y-auto">
+          <ul className="space-y-1 px-3">
+            {/* Dashboard */}
+            <li>
+              <Link
+                to="/"
+                onClick={() => setOpen(false)}
                 className={cn(
-                  "transition-transform duration-200",
-                  expandedSections.logistics ? "rotate-180" : ""
-                )} 
-              />
-            </button>
+                  "flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
+                  isActive("/") || isActive("/dashboard")
+                    ? "bg-purple-50 text-purple-700"
+                    : "text-gray-700 hover:bg-gray-100"
+                )}
+              >
+                <LayoutDashboard size={20} className="text-gray-600" />
+                <span>Dashboard</span>
+              </Link>
+            </li>
 
-            {/* Logistics Submenu */}
-            {expandedSections.logistics && (
-              <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
-                {/* Office Section */}
-                <div className="space-y-1">
-                  <button
-                    onClick={() => toggleSection('office')}
-                    className={cn(
-                      "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
-                      isActive("/logistics/office")
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                    )}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Building size={18} />
-                      <span>Office</span>
-                    </div>
-                    <ChevronDown 
-                      size={16} 
-                      className={cn(
-                        "transition-transform duration-200",
-                        expandedSections.office ? "rotate-180" : ""
-                      )} 
-                    />
-                  </button>
-
-                  {/* Office Submenu */}
-                  {expandedSections.office && (
-                    <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
-                      <Link
-                        to="/logistics/office/orders"
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                          isActive("/logistics/office/orders")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                      >
-                        <Box size={16} />
-                        <span>Orders</span>
-                      </Link>
-                      <Link
-                        to="/logistics/office/pickup-orders"
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                          isActive("/logistics/office/pickup-orders")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                      >
-                        <Truck size={16} />
-                        <span>Pickup Orders</span>
-                      </Link>
-                      <Link
-                        to="/logistics/office/walking-orders"
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                          isActive("/logistics/office/walking-orders")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                      >
-                        <Box size={16} />
-                        <span>Walking Orders</span>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-                {/* Shipping Section */}
-                <div className="space-y-1">
-                  <button
-                    onClick={() => toggleSection('shipping')}
-                    className={cn(
-                      "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
-                      isActive("/logistics/shipping")
-                        ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                        : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                    )}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <Truck size={18} />
-                      <span>Shipping</span>
-                    </div>
-                    <ChevronDown 
-                      size={16} 
-                      className={cn(
-                        "transition-transform duration-200",
-                        expandedSections.shipping ? "rotate-180" : ""
-                      )} 
-                    />
-                  </button>
-
-                  {/* Shipping Submenu */}
-                  {expandedSections.shipping && (
-                    <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
-                      <Link
-                        to="/logistics/shipping/pending"
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                          isActive("/logistics/shipping/pending")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                      >
-                        <Box size={16} />
-                        <span>Pending</span>
-                      </Link>
-                      <Link
-                        to="/logistics/shipping/ready"
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                          isActive("/logistics/shipping/ready")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                      >
-                        <Box size={16} />
-                        <span>Ready</span>
-                      </Link>
-                      <Link
-                        to="/logistics/shipping/history"
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                          isActive("/logistics/shipping/history")
-                            ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                            : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                        )}
-                      >
-                        <History size={16} />
-                        <span>History</span>
-                      </Link>
-                    </div>
-                  )}
-                </div>
-
-                {/* Import & Export */}
-                <Link
-                  to="/logistics/import-export"
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                    isActive("/logistics/import-export")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <Globe size={18} />
-                  <span>Import & Export</span>
-                </Link>
-
-                {/* Currency Exchange */}
-                <Link
-                  to="/logistics/currency-exchange"
-                  onClick={() => setOpen(false)}
-                  className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                    isActive("/logistics/currency-exchange")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <DollarSign size={18} />
-                  <span>Currency Exchange</span>
-                </Link>
-              </div>
-            )}
-          </div>
-
-          {/* Drop & Ship Section */}
-          <div className="space-y-1">
-            <button
-              onClick={() => toggleSection('dropship')}
-              className={cn(
-                "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
-                isActive("/dropship")
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-              )}
-            >
-              <div className="flex items-center space-x-2">
-                <Warehouse size={18} />
-                <span>Drop & Ship</span>
-              </div>
-              <ChevronDown 
-                size={16} 
+            {/* Users */}
+            <li>
+              <Link
+                to="/users"
+                onClick={() => setOpen(false)}
                 className={cn(
-                  "transition-transform duration-200",
-                  expandedSections.dropship ? "rotate-180" : ""
-                )} 
-              />
-            </button>
+                  "flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
+                  isActive("/users")
+                    ? "bg-purple-50 text-purple-700"
+                    : "text-gray-700 hover:bg-gray-100"
+                )}
+              >
+                <Users size={20} className="text-gray-600" />
+                <span>Users</span>
+              </Link>
+            </li>
 
-            {/* Drop & Ship Submenu */}
-            {expandedSections.dropship && (
-              <div className="pl-4 ml-2 border-l border-sidebar-border space-y-1">
-                <Link
-                  to="/addresses"
-                  onClick={() => setOpen(false)}
+            {/* Logistics Section */}
+            <li>
+              <button
+                onClick={() => toggleSection('logistics')}
+                className={cn(
+                  "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium",
+                  isActive("/logistics")
+                    ? "bg-purple-100 text-purple-700"
+                    : "text-gray-700 hover:bg-gray-100"
+                )}
+              >
+                <div className="flex items-center space-x-3">
+                  <Truck size={20} className="text-purple-600" />
+                  <span>Logistics</span>
+                </div>
+                <ChevronDown 
+                  size={16} 
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                    isActive("/addresses")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <FileBox size={18} />
-                  <span>Addresses</span>
-                </Link>
-                <Link
-                  to="/orders"
-                  onClick={() => setOpen(false)}
+                    "transition-transform duration-200 text-gray-500",
+                    expandedSections.logistics ? "rotate-180" : ""
+                  )} 
+                />
+              </button>
+
+              {/* Logistics Submenu */}
+              {expandedSections.logistics && (
+                <ul className="ml-7 mt-1 space-y-1 border-l border-gray-200 pl-4">
+                  {/* Office Section */}
+                  <li>
+                    <div 
+                      className="flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer text-gray-700 hover:bg-gray-100"
+                      onClick={() => toggleSection('office')}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <Building size={18} className="text-gray-600" />
+                        <span>Office</span>
+                      </div>
+                      <ChevronRight 
+                        size={16} 
+                        className={cn(
+                          "transition-transform duration-200 text-gray-500",
+                          expandedSections.office ? "rotate-90" : ""
+                        )} 
+                      />
+                    </div>
+
+                    {/* Office Submenu */}
+                    {expandedSections.office && (
+                      <ul className="ml-5 mt-1 space-y-1 border-l border-gray-200 pl-4">
+                        <li>
+                          <Link
+                            to="/logistics/office/orders"
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                              isActive("/logistics/office/orders")
+                                ? "bg-purple-50 text-purple-700 font-medium"
+                                : "text-gray-600 hover:bg-gray-100"
+                            )}
+                          >
+                            <Box size={16} className="text-gray-500" />
+                            <span>Orders</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/logistics/office/pickup-orders"
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                              isActive("/logistics/office/pickup-orders")
+                                ? "bg-purple-50 text-purple-700 font-medium"
+                                : "text-gray-600 hover:bg-gray-100"
+                            )}
+                          >
+                            <Truck size={16} className="text-gray-500" />
+                            <span>Pickup Orders</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/logistics/office/walking-orders"
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                              isActive("/logistics/office/walking-orders")
+                                ? "bg-purple-50 text-purple-700 font-medium"
+                                : "text-gray-600 hover:bg-gray-100"
+                            )}
+                          >
+                            <Box size={16} className="text-gray-500" />
+                            <span>Walking Orders</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+
+                  {/* Shipping Section */}
+                  <li>
+                    <div 
+                      className={cn(
+                        "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer",
+                        isShippingPage
+                          ? "bg-purple-100 text-purple-700" 
+                          : "text-gray-700 hover:bg-gray-100"
+                      )}
+                      onClick={() => toggleSection('shipping')}
+                    >
+                      <div className="flex items-center space-x-3">
+                        <Truck size={18} className="text-purple-600" />
+                        <span>Shipping</span>
+                      </div>
+                      <ChevronDown 
+                        size={16} 
+                        className={cn(
+                          "transition-transform duration-200 text-gray-500",
+                          expandedSections.shipping ? "rotate-180" : ""
+                        )} 
+                      />
+                    </div>
+
+                    {/* Shipping Submenu */}
+                    {expandedSections.shipping && (
+                      <ul className="ml-5 mt-1 space-y-1 border-l border-gray-200 pl-4">
+                        <li>
+                          <Link
+                            to="/logistics/shipping/pending"
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                              isActive("/logistics/shipping/pending")
+                                ? "bg-purple-100 text-purple-700 font-medium"
+                                : "text-gray-600 hover:bg-gray-100"
+                            )}
+                          >
+                            <Box size={16} className={isActive("/logistics/shipping/pending") ? "text-purple-600" : "text-gray-500"} />
+                            <span>Pending</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/logistics/shipping/ready"
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                              isActive("/logistics/shipping/ready")
+                                ? "bg-purple-50 text-purple-700 font-medium"
+                                : "text-gray-600 hover:bg-gray-100"
+                            )}
+                          >
+                            <Box size={16} className="text-gray-500" />
+                            <span>Ready</span>
+                          </Link>
+                        </li>
+                        <li>
+                          <Link
+                            to="/logistics/shipping/history"
+                            onClick={() => setOpen(false)}
+                            className={cn(
+                              "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                              isActive("/logistics/shipping/history")
+                                ? "bg-purple-50 text-purple-700 font-medium"
+                                : "text-gray-600 hover:bg-gray-100"
+                            )}
+                          >
+                            <Clock size={16} className="text-gray-500" />
+                            <span>History</span>
+                          </Link>
+                        </li>
+                      </ul>
+                    )}
+                  </li>
+
+                  {/* Import & Export */}
+                  <li>
+                    <Link
+                      to="/logistics/import-export"
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
+                        isActive("/logistics/import-export")
+                          ? "bg-purple-50 text-purple-700"
+                          : "text-gray-700 hover:bg-gray-100"
+                      )}
+                    >
+                      <Globe size={18} className="text-gray-600" />
+                      <span>Import & Export</span>
+                    </Link>
+                  </li>
+
+                  {/* Currency Exchange */}
+                  <li>
+                    <Link
+                      to="/logistics/currency-exchange"
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "flex items-center space-x-3 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
+                        isActive("/logistics/currency-exchange")
+                          ? "bg-purple-50 text-purple-700"
+                          : "text-gray-700 hover:bg-gray-100"
+                      )}
+                    >
+                      <DollarSign size={18} className="text-gray-600" />
+                      <span>Currency Exchange</span>
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/* Drop & Ship Section */}
+            <li>
+              <div 
+                className={cn(
+                  "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer",
+                  isActive("/addresses") || isActive("/orders")
+                    ? "bg-purple-50 text-purple-700"
+                    : "text-gray-700 hover:bg-gray-100"
+                )}
+                onClick={() => toggleSection('dropship')}
+              >
+                <div className="flex items-center space-x-3">
+                  <Warehouse size={20} className="text-gray-600" />
+                  <span>Drop & Ship</span>
+                </div>
+                <ChevronRight 
+                  size={16} 
                   className={cn(
-                    "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-150",
-                    isActive("/orders")
-                      ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                      : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
-                  )}
-                >
-                  <Box size={18} />
-                  <span>Orders</span>
-                </Link>
+                    "transition-transform duration-200 text-gray-500",
+                    expandedSections.dropship ? "rotate-90" : ""
+                  )} 
+                />
               </div>
-            )}
-          </div>
+
+              {/* Drop & Ship Submenu */}
+              {expandedSections.dropship && (
+                <ul className="ml-7 mt-1 space-y-1 border-l border-gray-200 pl-4">
+                  <li>
+                    <Link
+                      to="/addresses"
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                        isActive("/addresses")
+                          ? "bg-purple-50 text-purple-700 font-medium"
+                          : "text-gray-600 hover:bg-gray-100"
+                      )}
+                    >
+                      <FileBox size={18} className="text-gray-500" />
+                      <span>Addresses</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/orders"
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "flex items-center space-x-3 px-3 py-2 rounded-md text-sm transition-colors duration-150",
+                        isActive("/orders")
+                          ? "bg-purple-50 text-purple-700 font-medium"
+                          : "text-gray-600 hover:bg-gray-100"
+                      )}
+                    >
+                      <Box size={18} className="text-gray-500" />
+                      <span>Orders</span>
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </li>
+
+            {/* E-commerce */}
+            <li>
+              <div 
+                className={cn(
+                  "flex items-center justify-between w-full px-3 py-2 rounded-md text-sm font-medium cursor-pointer",
+                  "text-gray-700 hover:bg-gray-100"
+                )}
+              >
+                <div className="flex items-center space-x-3">
+                  <ShoppingBag size={20} className="text-gray-600" />
+                  <span>E-commerce</span>
+                </div>
+                <ChevronRight size={16} className="text-gray-500" />
+              </div>
+            </li>
+          </ul>
         </nav>
         
         {/* User section */}
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-gray-200">
           <button 
             onClick={signOut}
-            className="flex items-center w-full px-3 py-2 text-sm text-sidebar-foreground hover:bg-sidebar-accent rounded-md"
+            className="flex items-center w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
           >
             <LogOut size={18} className="mr-2" />
             <span>Log Out</span>
@@ -392,3 +435,4 @@ export const Sidebar: React.FC<SidebarProps> = ({ open, setOpen }) => {
     </>
   );
 };
+
