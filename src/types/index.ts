@@ -54,3 +54,36 @@ export interface Order {
     timestamp: string;
   }[];
 }
+
+export type ShipmentStatus = 
+  | 'Received'
+  | 'Accepted' 
+  | 'Price Ready' 
+  | 'Invoice Generated'
+  | 'Shipped'
+  | 'Delivered';
+
+export interface Shipment {
+  id: string;
+  trackingNumber: string;
+  orderId: string;
+  customer: string;
+  email: string;
+  phone: string;
+  address: string;
+  date: string;
+  status: ShipmentStatus;
+  weight: string;
+  dimensions: string;
+  serviceType: string;
+  priceDetails?: {
+    basePrice: number;
+    extraCharges: number;
+    tax: number;
+    discount: number;
+    total: number;
+    courierService: string;
+    quantity: number;
+  };
+  notes?: string;
+}
