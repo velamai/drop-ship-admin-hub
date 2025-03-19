@@ -1,30 +1,24 @@
-
 import React from 'react';
 import { Menu, Bell, User } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
-
 interface HeaderProps {
   toggleSidebar: () => void;
   sidebarOpen: boolean;
 }
-
-export const Header: React.FC<HeaderProps> = ({ toggleSidebar, sidebarOpen }) => {
+export const Header: React.FC<HeaderProps> = ({
+  toggleSidebar,
+  sidebarOpen
+}) => {
   const isMobile = useIsMobile();
-  
-  return (
-    <header className="sticky top-0 z-30 w-full bg-background/80 backdrop-blur-md border-b border-border">
+  return <header className="sticky top-0 z-30 w-full bg-background/80 backdrop-blur-md border-b border-border">
       <div className="flex items-center justify-between h-16 px-4">
-        {isMobile && (
-          <button 
-            onClick={toggleSidebar}
-            className="p-2 rounded-md hover:bg-accent"
-          >
+        {isMobile && <button onClick={toggleSidebar} className="p-2 rounded-md hover:bg-accent">
             <Menu size={20} />
-          </button>
-        )}
+          </button>}
         
         <div className="flex-1 md:ml-4">
-          <h1 className="text-lg font-medium">Drop & Ship Admin</h1>
+          <h1 className="text-lg font-medium">
+        </h1>
         </div>
         
         <div className="flex items-center space-x-3">
@@ -42,6 +36,5 @@ export const Header: React.FC<HeaderProps> = ({ toggleSidebar, sidebarOpen }) =>
           </div>
         </div>
       </div>
-    </header>
-  );
+    </header>;
 };
