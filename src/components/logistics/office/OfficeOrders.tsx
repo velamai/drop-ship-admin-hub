@@ -43,7 +43,7 @@ export const OfficeOrders: React.FC<OfficeOrdersProps> = ({
   const filteredOrders = orders.filter(order => 
     order.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
     order.userName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    order.userEmail.toLowerCase().includes(searchQuery.toLowerCase())
+    (order.userEmail && order.userEmail.toLowerCase().includes(searchQuery.toLowerCase()))
   );
 
   // Get status badge class based on order status
@@ -169,13 +169,15 @@ export const OfficeOrders: React.FC<OfficeOrdersProps> = ({
                           className="cursor-pointer hover:bg-muted/50"
                           onClick={() => handleViewOrder(order.id)}
                         >
-                          <TableCell className="font-medium">{order.id}</TableCell>
+                          <TableCell className="font-medium">{order.id.substring(0, 8)}</TableCell>
                           <TableCell>
                             <div>
                               <p>{order.userName}</p>
-                              <p className="text-sm text-muted-foreground">
-                                {order.userEmail}
-                              </p>
+                              {order.userEmail && (
+                                <p className="text-sm text-muted-foreground">
+                                  {order.userEmail}
+                                </p>
+                              )}
                             </div>
                           </TableCell>
                           <TableCell>{order.items.length}</TableCell>

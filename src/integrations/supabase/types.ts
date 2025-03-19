@@ -45,6 +45,110 @@ export type Database = {
         }
         Relationships: []
       }
+      orders: {
+        Row: {
+          created_at: string
+          customer_email: string
+          customer_name: string
+          customer_phone: string | null
+          display_id: string
+          id: string
+          status: string
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          customer_email: string
+          customer_name: string
+          customer_phone?: string | null
+          display_id: string
+          id?: string
+          status: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          customer_email?: string
+          customer_name?: string
+          customer_phone?: string | null
+          display_id?: string
+          id?: string
+          status?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      shipments: {
+        Row: {
+          country: string | null
+          courier: string | null
+          created_at: string
+          destination: string
+          destination_address: Json | null
+          id: string
+          items_count: number
+          items_details: Json | null
+          order_id: string | null
+          package_type: string
+          recipient: string
+          ship_date: string
+          status: string
+          total_amount: number
+          tracking_number: string
+          updated_at: string
+          weight: string | null
+        }
+        Insert: {
+          country?: string | null
+          courier?: string | null
+          created_at?: string
+          destination: string
+          destination_address?: Json | null
+          id?: string
+          items_count?: number
+          items_details?: Json | null
+          order_id?: string | null
+          package_type: string
+          recipient: string
+          ship_date: string
+          status: string
+          total_amount?: number
+          tracking_number: string
+          updated_at?: string
+          weight?: string | null
+        }
+        Update: {
+          country?: string | null
+          courier?: string | null
+          created_at?: string
+          destination?: string
+          destination_address?: Json | null
+          id?: string
+          items_count?: number
+          items_details?: Json | null
+          order_id?: string | null
+          package_type?: string
+          recipient?: string
+          ship_date?: string
+          status?: string
+          total_amount?: number
+          tracking_number?: string
+          updated_at?: string
+          weight?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shipments_order_id_fkey"
+            columns: ["order_id"]
+            isOneToOne: false
+            referencedRelation: "orders"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
