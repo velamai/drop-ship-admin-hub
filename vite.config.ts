@@ -5,6 +5,7 @@ import path from 'path';
 import { componentTagger } from 'lovable-tagger';
 
 // https://vitejs.dev/config/
+// Triggering rebuild to sync codebase with preview
 export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
