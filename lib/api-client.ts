@@ -1,7 +1,8 @@
+
 import axios from 'axios';
+import { LoginFormData, AuthSession } from './auth';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
+// Define API response types
 export type ApiResponse<T = any> = {
   status: 'success' | 'error';
   data?: T;
@@ -22,136 +23,48 @@ export interface ApiError extends Error {
   isAxiosError?: boolean;
 }
 
-export type UserType = 'ecommerce' | 'logistics' | 'dropship';
-
-export interface RegisterPayload {
-  firstname: string;
-  lastname: string;
-  email: string;
-  password: string;
-  usertype: UserType;
-}
-
-export interface LoginPayload {
-  email: string;
-  password: string;
-}
-
-export interface OtpPayload {
-  identifier: string;
-  type: 'EMAIL' | 'PHONE';
-}
-
-export interface VerifyOtpPayload extends OtpPayload {
-  otp: string;
-}
-
 class ApiClient {
-  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<ApiResponse<T>> {
-    try {
-      // Get the current origin
-      const origin = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000';
-      
-      // Log the request details
-      console.log('API Request:', {
-        url: `${API_URL}${endpoint}`,
-        method: options.method,
-        origin,
-      });
+  private readonly BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://lzoerrcjxcafmbundltd.supabase.co/functions/v1';
+  
+  private getAuthHeaders() {
+    // Get token from local storage if available
+    const token = localStorage.getItem('auth_token');
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  }
 
-      const response = await fetch(`${API_URL}${endpoint}`, {
-        ...options,
-        credentials: 'include',
+  async login(credentials: LoginFormData): Promise<ApiResponse<AuthSession>> {
+    try {
+      console.log('Login attempt:', { email: credentials.email });
+      
+      const response = await axios.post(`${this.BASE_URL}/signin`, credentials, {
         headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "Origin": origin,
-          "apikey": process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
-          ...options.headers,
+          'Content-Type': 'application/json',
         },
       });
-
-      // Parse response JSON first, regardless of status code
-      const data = await response.json();
       
-      // Log the complete response for debugging
-      console.log('API Response:', {
-        url: `${API_URL}${endpoint}`,
-        status: response.status,
-        statusText: response.statusText,
-        headers: Object.fromEntries(response.headers.entries()),
-        data,
-      });
-
-      // If response is not ok, throw an error with the parsed error data
-      if (!response.ok) {
-        const error = new Error() as ApiError;
-        error.response = {
-          status: response.status,
-          data: {
-            status: 'error',
-            error: data.error || data.message,
-            message: data.message || data.error,
-          },
-        };
-        throw error;
-      }
-
-      return data;
+      console.log('Login response:', response.data);
+      return response.data;
     } catch (error) {
-      console.error('Request Error:', {
-        error,
-        endpoint,
-        options,
-      });
-
-      // If error has response data, return it
+      console.error('Login error:', error);
+      
       const apiError = error as ApiError;
       if (apiError.response?.data) {
         return {
-          status: 'error' as const,
-          error: apiError.response.data.error,
-          message: apiError.response.data.message,
+          status: 'error',
+          error: apiError.response.data.error || apiError.response.data.message,
+          message: apiError.response.data.message || apiError.response.data.error,
         };
       }
       
-      // For network or parsing errors, return a generic error
       return {
-        status: 'error' as const,
+        status: 'error',
         error: error instanceof Error ? error.message : 'An unknown error occurred',
         message: 'Failed to connect to the server. Please check your connection and try again.',
       };
     }
   }
 
-  async register(payload: RegisterPayload) {
-    console.log('Registering user:', payload);
-    return this.request('/register', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-  }
-
-  async login(payload: LoginPayload) {
-    return this.request('/signin', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-  }
-
-  async sendOtp(payload: OtpPayload) {
-    return this.request('/send-otp', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-  }
-
-  async verifyOtp(payload: VerifyOtpPayload) {
-    return this.request('/verify-otp', {
-      method: 'POST',
-      body: JSON.stringify(payload),
-    });
-  }
+  // Add more API methods as needed
 }
 
 export const apiClient = new ApiClient();
