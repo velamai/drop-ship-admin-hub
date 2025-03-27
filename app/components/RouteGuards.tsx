@@ -1,3 +1,4 @@
+
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
@@ -22,7 +23,7 @@ export function ProtectedRoute({ children, redirectPath = "/login" }: RouteGuard
     }
   }, [loading, isAuthenticated, router, redirectPath]);
 
-  // Show nothing while checking authentication
+  // Show loading indicator while checking authentication
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -45,7 +46,7 @@ export function PublicRoute({ children, redirectPath = "/dashboard" }: RouteGuar
     }
   }, [loading, isAuthenticated, router, redirectPath]);
 
-  // Show nothing while checking authentication
+  // Show loading indicator while checking authentication
   if (loading) {
     return <div>Loading...</div>;
   }

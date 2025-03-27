@@ -1,5 +1,6 @@
 
 import { z } from "zod";
+import { useState, useEffect } from "react";
 
 // Type definitions for authentication
 export interface AuthUser {
@@ -77,6 +78,18 @@ export const auth = {
 
 // Hook to check if user is authenticated on client side
 export const useAuth = () => {
+  const [loading, setLoading] = useState(true);
+
+  // Initialize auth state and set loading to false after checking
+  useEffect(() => {
+    // Small delay to ensure client-side execution
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
   const isAuthenticated = auth.isAuthenticated();
   const user = auth.getUser();
   const token = auth.getToken();
@@ -85,6 +98,7 @@ export const useAuth = () => {
     isAuthenticated,
     user,
     token,
+    loading, // Add the loading state
     login: (session: AuthSession) => auth.setSession(session),
     logout: () => auth.clearSession(),
   };
