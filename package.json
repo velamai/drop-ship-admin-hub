@@ -6,7 +6,7 @@
     "dev": "next dev",
     "start": "next start",
     "lint": "next lint",
-    "build": "next build",
+    "build:dev": "vite build --mode development",
     "postbuild": "next-on-pages --skip-build",
     "deploy": "wrangler pages deploy .vercel/output --project-name=ssl-dropship --branch=production"
   },
