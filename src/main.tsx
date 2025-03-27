@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/client';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v14-appRouter';
 import App from './App';
 import './app/globals.css';
-import { getCountryCode } from '@/lib/utils';
+import { getCountryCode } from '../lib/utils'; // Using relative path instead of alias
 
 // Debug log to check if getCountryCode is properly imported
 console.log("getCountryCode function:", getCountryCode);

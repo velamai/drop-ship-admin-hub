@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -8,7 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getCountryCode } from "@/lib/utils";
+import { getCountryCode } from "../../lib/utils"; // Using relative path instead of alias
 import { CountryFlag } from "@/components/country-flag";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 

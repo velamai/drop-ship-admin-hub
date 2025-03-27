@@ -1,3 +1,4 @@
+
 "use client";
 import Link from "next/link";
 import { Package, ChevronLeft, Truck, MapPin, Box, Clock, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
@@ -6,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { getCountryCode } from "@/lib/utils";
+import { getCountryCode } from "../../../lib/utils"; // Using relative path instead of alias
 import { CountryFlag } from "@/components/country-flag";
 
 export default function OrderDetailsPage({ params }: { params: { id: string } }) {
