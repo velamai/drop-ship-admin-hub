@@ -23,6 +23,27 @@ export interface ApiError extends Error {
   isAxiosError?: boolean;
 }
 
+// Types for OTP verification
+export interface SendOtpRequest {
+  identifier: string;
+  type: string;
+}
+
+export interface VerifyOtpRequest {
+  identifier: string;
+  type: string;
+  otp: string;
+}
+
+// Type for user registration
+export interface RegisterRequest {
+  firstname: string;
+  lastname: string;
+  email: string;
+  password: string;
+  usertype: string;
+}
+
 class ApiClient {
   private readonly BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://lzoerrcjxcafmbundltd.supabase.co/functions/v1';
   
@@ -64,7 +85,93 @@ class ApiClient {
     }
   }
 
-  // Add more API methods as needed
+  // Add the missing methods for OTP and registration
+  async sendOtp(data: SendOtpRequest): Promise<ApiResponse> {
+    try {
+      const response = await axios.post(`${this.BASE_URL}/send-otp`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error('Send OTP error:', error);
+      
+      const apiError = error as ApiError;
+      if (apiError.response?.data) {
+        return {
+          status: 'error',
+          error: apiError.response.data.error || apiError.response.data.message,
+          message: apiError.response.data.message || apiError.response.data.error,
+        };
+      }
+      
+      return {
+        status: 'error',
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+        message: 'Failed to send OTP. Please check your connection and try again.',
+      };
+    }
+  }
+
+  async verifyOtp(data: VerifyOtpRequest): Promise<ApiResponse> {
+    try {
+      const response = await axios.post(`${this.BASE_URL}/verify-otp`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error('Verify OTP error:', error);
+      
+      const apiError = error as ApiError;
+      if (apiError.response?.data) {
+        return {
+          status: 'error',
+          error: apiError.response.data.error || apiError.response.data.message,
+          message: apiError.response.data.message || apiError.response.data.error,
+        };
+      }
+      
+      return {
+        status: 'error',
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+        message: 'Failed to verify OTP. Please check your code and try again.',
+      };
+    }
+  }
+
+  async register(data: RegisterRequest): Promise<ApiResponse> {
+    try {
+      const response = await axios.post(`${this.BASE_URL}/register`, data, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      return response.data;
+    } catch (error) {
+      console.error('Registration error:', error);
+      
+      const apiError = error as ApiError;
+      if (apiError.response?.data) {
+        return {
+          status: 'error',
+          error: apiError.response.data.error || apiError.response.data.message,
+          message: apiError.response.data.message || apiError.response.data.error,
+        };
+      }
+      
+      return {
+        status: 'error',
+        error: error instanceof Error ? error.message : 'An unknown error occurred',
+        message: 'Failed to register. Please check your information and try again.',
+      };
+    }
+  }
 }
 
 export const apiClient = new ApiClient();

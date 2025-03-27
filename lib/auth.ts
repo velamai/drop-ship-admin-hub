@@ -34,6 +34,13 @@ export const auth = {
     }
   },
 
+  // Add the missing setToken method for backward compatibility
+  setToken(token: string) {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(AUTH_TOKEN_KEY, token);
+    }
+  },
+
   getToken(): string | null {
     if (typeof window !== 'undefined') {
       return localStorage.getItem(AUTH_TOKEN_KEY);

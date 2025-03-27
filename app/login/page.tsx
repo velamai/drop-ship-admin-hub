@@ -16,7 +16,7 @@ import { useToast } from "@/hooks/use-toast";
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTo = searchParams.get("redirect") || "/dashboard";
+  const redirectTo = searchParams?.get("redirect") || "/dashboard";
   const { toast } = useToast();
   const { login } = useAuth();
   const [isLoading, setIsLoading] = useState(false);

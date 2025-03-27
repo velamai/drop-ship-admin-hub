@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -46,8 +47,8 @@ export default function AccountPage() {
   };
 
   const handleSignOut = () => {
-    // Remove the auth token
-    auth.removeToken();
+    // Use clearSession instead of removeToken
+    auth.clearSession();
 
     // Redirect to login page
     router.push("/login");
